@@ -166,7 +166,7 @@ void trollies()
     unsigned char key[] = {0x00, 0xFF, 0x01, 0x0F};
     int keysize = 1;
     char* text = "barneybarneymalware";
-    xorCrypt((unsigned char*)text, strlen(text), key, keysize); 
+    crypter((unsigned char*)text, strlen(text), key, keysize); 
 
 
 }
