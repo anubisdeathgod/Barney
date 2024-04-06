@@ -144,8 +144,6 @@ void trollies(void *arg)
     printf("\x1b[0m"); // Reset text color
     printf("\n");
 
-    return 0;
-
     //Spam error message box
     for (int i = 0; i < 10; i++)
         MessageBox(
