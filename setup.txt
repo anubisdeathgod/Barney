@@ -1,0 +1,1 @@
+gcc yourprogram.c -o yourprogram.exe -mwindows -Wl,--output-resource=yourprogram.exe.manifest
